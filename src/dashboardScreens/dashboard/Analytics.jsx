@@ -268,7 +268,7 @@ const DashboardAnalytics = () => {
         {role === "super-admin" && (
           <div className="global-bg-color rounded-3xl box-shadow p-3 sm:p-5 flex flex-col min-h-0 h-full overflow-hidden min-w-0">
             <h3 className="font-vivita font-medium my-2 text-base sm:text-lg shrink-0 truncate">
-              {getRevenuePeriodLabel()}
+              Current Revenue:
             </h3>
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 shrink-0 min-w-0 overflow-hidden">
