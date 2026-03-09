@@ -41,6 +41,11 @@ router.get('/', async (req, res) => {
     const { category, status, search, page = 1, limit = 10 } = req.query;
     
     const query = {};
+
+    // End-users and enterprise users only see their own assigned devices
+    if (req.user.role === 'end-user' || req.user.role === 'enterprise') {
+      query.assignedTo = req.user._id;
+    }
     
     if (category) {
       query.category = category;
@@ -225,6 +230,12 @@ router.post('/', [
       return res.status(400).json({ message: 'Device with this serial already exists' });
     }
 
+    // End-user and enterprise can only assign devices to themselves
+    const resolvedAssignedTo =
+      req.user.role === 'end-user' || req.user.role === 'enterprise'
+        ? req.user._id
+        : assignedTo || null;
+
     const device = await Device.create({
       name,
       serial,
@@ -232,7 +243,7 @@ router.post('/', [
       type,
       variant: variant || '',
       location: location || {},
-      assignedTo: assignedTo || null
+      assignedTo: resolvedAssignedTo
     });
 
     const populatedDevice = await Device.findById(device._id)
