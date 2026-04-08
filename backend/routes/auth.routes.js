@@ -240,6 +240,7 @@ router.post('/change-password', protect, [
 router.post('/forgot-password', [
   body('email').isEmail().withMessage('Please provide a valid email')
 ], async (req, res) => {
+  let foundUser = null;
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -247,19 +248,18 @@ router.post('/forgot-password', [
     }
 
     const { email } = req.body;
-    const user = await User.findOne({ email }).select('+resetPasswordToken +resetPasswordExpires');
+    foundUser = await User.findOne({ email }).select('+resetPasswordToken +resetPasswordExpires');
 
-    if (!user) {
+    if (!foundUser) {
       return res.json({ message: 'If an account exists with this email, a password reset link has been sent.' });
     }
 
     const resetToken = crypto.randomBytes(32).toString('hex');
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
-    await user.save({ validateBeforeSave: false });
+    foundUser.resetPasswordToken = resetToken;
+    foundUser.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+    await foundUser.save({ validateBeforeSave: false });
 
     const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
-    // TODO: In production, send email with resetUrl (e.g. nodemailer)
     if (process.env.NODE_ENV !== 'production') {
       console.log('Password reset link:', resetUrl);
     }
@@ -270,10 +270,10 @@ router.post('/forgot-password', [
     });
   } catch (error) {
     console.error('Forgot password error:', error);
-    if (user) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save({ validateBeforeSave: false }).catch(() => {});
+    if (foundUser) {
+      foundUser.resetPasswordToken = undefined;
+      foundUser.resetPasswordExpires = undefined;
+      await foundUser.save({ validateBeforeSave: false }).catch(() => {});
     }
     res.status(500).json({ message: 'Server error' });
   }

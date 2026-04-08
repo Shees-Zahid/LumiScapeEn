@@ -25,6 +25,7 @@ import {
   sendMessage as sendMessageThunk,
   deleteChat as deleteChatThunk,
   deleteMessages as deleteMessagesThunk,
+  loadMessages as loadMessagesThunk,
   selectChat as selectChatThunk,
   selectTypingInActiveChat,
   chatActions,

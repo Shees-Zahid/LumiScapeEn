@@ -922,7 +922,6 @@ export const supplierViewData = {
   lastName: "last name .",
   email: "EmailAddress@gmail.com",
   phone: "0123456789001",
-  phone: "0123456789001",
   city: "Abuja",
   country: "Nigeria",
   itemsSupplied: ["Item 1", "Item 2", "Item 3", "Item 4"],

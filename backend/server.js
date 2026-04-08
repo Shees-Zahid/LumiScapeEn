@@ -29,8 +29,8 @@ import analyticsRoutes from './routes/analytics.routes.js';
 import enterpriseRoutes from './routes/enterprise.routes.js';
 import helpCenterRoutes from './routes/helpCenter.routes.js';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables from backend/.env regardless of cwd
+dotenv.config({ path: join(dirname(fileURLToPath(import.meta.url)), '.env') });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
