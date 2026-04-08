@@ -1,3 +1,7 @@
+import dns from 'dns';
+// Use Google DNS to avoid ISP blocking MongoDB Atlas SRV lookups
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 import http from 'http';
 import express from 'express';
 import { Server as SocketServer } from 'socket.io';
