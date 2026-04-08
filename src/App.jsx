@@ -19,7 +19,7 @@ import CreatePassword from "./dashboardScreens/setting/Create-Password.jsx";
 import NotificationSettings from "./dashboardScreens/setting/NotificationSettings.jsx";
 import Chat from "./dashboardScreens/chat/index.jsx";
 import Dashboard from "./dashboardScreens/dashboard/index.jsx";
-import Tariff from "./dashboardScreens/Tariff/index.jsx";
+import Tariff from "./dashboardScreens/tariff/index.jsx";
 import RolesManagement from "./dashboardScreens/roleManagement/index.jsx";
 import NewRole from "./dashboardScreens/roleManagement/NewRole.jsx";
 import DeviceManagement from "./dashboardScreens/deviceManagement/index.jsx";
